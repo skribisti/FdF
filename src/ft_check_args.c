@@ -6,21 +6,11 @@
 /*   By: norabino <norabino@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:22:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/04 10:47:30 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:59:18 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 int	ft_strcmp(char *str1, char *str2)
 {
