@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/04 16:49:19 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/06 09:37:09 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-#include "../includes/get_next_line.h"
 
 int	ft_isdigit(char c)
 {
-	if (c > '0' && c < '9')
+	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
 }
@@ -56,51 +55,152 @@ int	ft_get_z(char *coords)
 	return (ft_atoi(ft_substr(coords, 0, i)));
 }
 
-/*int	ft_get_color(char *coords)
+t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
 {
-	char *z_content;
-	
-	if (ft_strchr(coords, ','))
-		z_content = ft_strchr(coords, ',');
-	
-}*/
+	t_point	**new_row;
+	int		i;
 
-void	ft_init_point_iter(t_point **current, char **all_points_in_line, int *x, int y)
-{
-	(*current) = (t_point *)malloc(sizeof(t_point *));
-	(*current)->x = *x;
-	(*current)->y = y;
-	(*current)->z = ft_get_z(all_points_in_line[*x]);
-	//current->color = ft_get_color(all_points_in_line[x]);
-	(*x)++;
+	new_row = malloc(cols * sizeof(t_point *));
+	if (!new_row)
+		return (NULL);
+	i = 0;
+	while (i < cols)
+	{
+		new_row[i] = NULL;
+		i++;
+	}
+	free(prev_row);
+	return (new_row);
 }
+
+int	ft_count_cols(char **all_points)
+{
+	int	count;
+
+	count = 0;
+	while (all_points[count])
+		count++;
+	return (count);
+}
+
+t_point	*ft_init_coords_point(char **all_points, int x, int y)
+{
+	t_point	*new_point;
+
+	new_point = (t_point *)malloc(sizeof(t_point));
+	if (!new_point)
+		return (NULL);
+	new_point->x = x;
+	new_point->y = y;
+	new_point->z = ft_get_z(all_points[x]);
+	new_point->next = NULL;
+	new_point->right_point = NULL;
+	new_point->bottom_point = NULL;
+	return (new_point);
+}
+
+t_point	*ft_create_point(t_map **map, t_point **tail,
+			char **all_points, int x, int y)
+{
+	t_point	*new_point;
+
+	new_point = ft_init_coords_point(all_points, x, y);
+	if (!(*map)->first)
+		(*map)->first = new_point;
+	if (*tail)
+		(*tail)->next = new_point;
+	*tail = new_point;
+	return (new_point);
+}
+
+void	ft_process_line(t_map **map, t_point **tail,
+			t_point ***prev_row, char **all_points, int y)
+{
+	t_point	*current;
+	int		x;
+	int		cols;
+
+	x = 0;
+	cols = ft_count_cols(all_points);
+	if (y == 0)
+		*prev_row = ft_realloc_prev_row(*prev_row, cols);
+	while (x < cols)
+	{
+		current = ft_create_point(map, tail, all_points, x, y);
+		if (x > 0)
+			(*prev_row)[x - 1]->right_point = current;
+		if (y > 0)
+			(*prev_row)[x]->bottom_point = current;
+		(*prev_row)[x] = current;
+		x++;
+	}
+}
+
+void	ft_finalize_map(t_map **map, t_point **prev_row, int y, char *line)
+{
+	free(prev_row);
+	free(line);
+	(*map)->rows = y;
+}
+
 
 void	ft_init_points(t_map **map, char **av)
 {
-	t_point	*current;
+	t_point	*tail;
+	t_point	**prev_row;
 	char	*line;
-	char	**all_points_in_line;
+	char	**all_points;
 	int		fd;
-	int		x;
 	int		y;
 
-	//(*map)->first = (t_point *)malloc(sizeof(t_point *));
-	current = (*map)->first;
+	(*map)->first = NULL;
+	tail = NULL;
+	prev_row = NULL;
 	y = 0;
 	fd = open(av[1], O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{
-		all_points_in_line = ft_split(line, ' ');
-		x = 0;
-		while(all_points_in_line[x])
-			ft_init_point_iter(&current, all_points_in_line, &x, y);
+		all_points = ft_split(line, ' ');
+		ft_process_line(map, &tail, &prev_row, all_points, y);
+		free(all_points);
 		y++;
 		line = get_next_line(fd);
 	}
-	free(line);
-	free(all_points_in_line);
-	//ft_print_map()
+	ft_finalize_map(map, prev_row, y, line);
+}
+
+void	ft_print_map(t_map *map)
+{
+	t_point	*point;
+	int		temp_y;
+
+	point = map->first;
+	temp_y = point->y;
+	printf("y = %d	", point->y);
+	while (point)
+	{
+		if (temp_y != point->y)
+			printf("\n\ny = %d	", point->y);
+		printf("(x = %d z = %d)	", point->x, point->z);
+		temp_y = point->y;
+		point = point->next;
+	}
+	printf("\n\nLINKS : \n");
+	point = map->first;
+	temp_y = point->y;
+	while (point)
+	{
+		if (point->y != temp_y)
+			printf("\n");
+		printf("%d", point->z);
+		if (point->right_point)
+			printf(" ⭢ ");
+		//if (point->bottom_point)
+			//printf("⭣\n");
+		temp_y = point->y;
+		point = point->next;
+	}
 }
 
 void	ft_init_map(char **av)
@@ -111,6 +211,6 @@ void	ft_init_map(char **av)
 	if (!map)
 		return ;
 	ft_init_points(&map, av);
-	printf("fini");
+	//ft_print_map(map);
 	//ft_free_all(map);
 }

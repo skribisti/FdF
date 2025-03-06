@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/04 16:39:05 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/06 08:50:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# include "../mlx_linux/mlx.h"
+# include "get_next_line.h"
 # include "stdio.h"
 # include "stdlib.h"
 # include "fcntl.h"
@@ -20,6 +22,8 @@
 typedef struct s_map
 {
 	struct s_point	*first;
+	int				collums;
+	int				rows;
 }	t_map;
 
 typedef struct s_point
