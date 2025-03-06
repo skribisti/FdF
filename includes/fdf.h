@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/06 16:26:47 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:00:42 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@
 # include "stdlib.h"
 # include "fcntl.h"
 
-typedef struct	s_data {
+typedef struct	s_vars
+{
+	void	*mlx;
+	void	*win;
+}	t_vars;
+
+typedef struct	s_data 
+{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
