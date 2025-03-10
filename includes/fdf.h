@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/10 12:29:46 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:30:23 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,6 @@
 # include "stdlib.h"
 # include "fcntl.h"
 
-typedef struct	s_vars
-{
-	void	*mlx;
-	void	*win;
-	int		frame_count;
-	int		color;
-}	t_vars;
-
 typedef struct	s_data 
 {
 	void	*img;
@@ -35,6 +27,15 @@ typedef struct	s_data
 	int		line_length;
 	int		endian;
 }	t_data;
+
+typedef struct	s_vars
+{
+	void	*mlx;
+	void	*win;
+	t_data	*img;
+	int		frame_count;
+	int		color;
+}	t_vars;
 
 typedef struct s_map
 {

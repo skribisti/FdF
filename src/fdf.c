@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:26:20 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/10 12:30:59 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:49:56 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	color_screen(t_vars *vars, int color)
 		x = 0;
 		while (x < WIDTH)
 		{
-			mlx_pixel_put(vars->mlx, vars->win, x, y, color);
+			my_mlx_pixel_put(vars->img, x, y, color);
 			x++;
 		}
 		y++;
@@ -74,8 +74,7 @@ int	color_screen(t_vars *vars, int color)
 int	update(t_vars *vars)
 {
 	
-	vars->frame_count++;
-	if (vars->frame_count >= 60000)
+	if (vars->frame_count >= 60)
 	{
 		vars->frame_count = 0;
 		if (vars->color == create_trgb(0, 255, 0, 0))
@@ -86,22 +85,24 @@ int	update(t_vars *vars)
 			vars->color = create_trgb(0, 255, 0, 0);
 	}
 	color_screen(vars, vars->color);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	vars->frame_count++;
 	return (0);
 }
 
 int	main(int ac, char **av)
 {
-	t_data	img;
 	t_vars	vars;
 
-	vars.color = create_trgb(0, 255, 0, 0);
-	vars.frame_count = 0;
+
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(vars.mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	vars.img->img = mlx_new_image(vars.mlx, 1920, 1080);
+	vars.img->addr = mlx_get_data_addr(vars.img->img, &vars.img->bits_per_pixel, &vars.img->line_length,
+								&vars.img->endian);
+	vars.frame_count = 0;
+	vars.color = create_trgb(0, 255, 0, 0);
+	//mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
 	//mlx_mouse_hook(vars.win, mouse_hook, &vars);
 	mlx_hook(vars.win, 17, 0, handle_close, &vars);
 	mlx_loop_hook(vars.mlx, update, &vars);
