@@ -6,11 +6,13 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:26:20 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/10 10:01:48 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:30:59 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+#define WIDTH 1920
+#define HEIGHT 1080
 
 /*int fdf(int ac, char **av)
 {
@@ -41,10 +43,49 @@ int	handle_close(t_vars *vars)
     return (0);
 }
 
-int	mouse_hook(int keycode, t_vars *vars)
+int	mouse_hook(int keycode, int x, int y, t_vars *vars)
 {
+	(void)vars;
 	if (keycode == 1)
-		printf("Hello from key_hook\n");
+		printf("Mouse clicked %d %d\n", x, y);
+	return (0);
+}
+
+int	color_screen(t_vars *vars, int color)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			mlx_pixel_put(vars->mlx, vars->win, x, y, color);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
+int	update(t_vars *vars)
+{
+	
+	vars->frame_count++;
+	if (vars->frame_count >= 60000)
+	{
+		vars->frame_count = 0;
+		if (vars->color == create_trgb(0, 255, 0, 0))
+			vars->color = create_trgb(0, 0, 255, 0);
+		else if (vars->color == create_trgb(0, 0, 255, 0))
+			vars->color = create_trgb(0, 0, 0, 255);
+		else if (vars->color == create_trgb(0, 0, 0, 255))
+			vars->color = create_trgb(0, 255, 0, 0);
+	}
+	color_screen(vars, vars->color);
 	return (0);
 }
 
@@ -52,18 +93,18 @@ int	main(int ac, char **av)
 {
 	t_data	img;
 	t_vars	vars;
-	int		color;
+
+	vars.color = create_trgb(0, 255, 0, 0);
+	vars.frame_count = 0;
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
 	img.img = mlx_new_image(vars.mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-	color = create_trgb(100, 0, 122, 122);
-	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-	my_mlx_pixel_put(&img, 50, 50, color);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	mlx_mouse_hook(vars.win, mouse_hook, &vars);
+	//mlx_mouse_hook(vars.win, mouse_hook, &vars);
 	mlx_hook(vars.win, 17, 0, handle_close, &vars);
+	mlx_loop_hook(vars.mlx, update, &vars);
 	mlx_loop(vars.mlx);
 
 	if (!ft_check_args(ac, av))

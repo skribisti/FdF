@@ -5,15 +5,15 @@ SRC = src/fdf.c \
 	src/ft_init_map.c \
 	src/ft_split.c \
 	src/get_next_line/get_next_line.c \
-	src/get_next_line/get_next_line_utils.c \
-
+	src/get_next_line/get_next_line_utils.c 
+WALL = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 
 %.o: %.c
-	$(CC) -I/usr/include -I./includes -Imlx_linux -Ift -O3 -g -c $< -o $@
+	$(CC) $(WALL) -I/usr/include -I./includes -Imlx_linux -Ift -O3 -g -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(WALL) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 clean:
 	rm -f $(OBJ)
