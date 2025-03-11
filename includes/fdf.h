@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/10 14:30:23 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:54:05 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,20 @@
 # include "stdlib.h"
 # include "fcntl.h"
 
-typedef struct	s_data 
+typedef struct	s_img
 {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}	t_data;
+}	t_img;
 
 typedef struct	s_vars
 {
 	void	*mlx;
 	void	*win;
-	t_data	*img;
-	int		frame_count;
-	int		color;
 }	t_vars;
-
-typedef struct s_map
-{
-	struct s_point	*first;
-	int				collums;
-	int				rows;
-}	t_map;
 
 typedef struct s_point
 {
@@ -54,6 +44,20 @@ typedef struct s_point
 	struct s_point	*bottom_point;
 	struct s_point	*next;
 }	t_point;
+
+typedef struct s_map
+{
+	struct s_point	*first;
+	int		collums;
+	int		lines;
+}	t_map;
+
+typedef struct s_fdf
+{
+	t_img	*img;
+	void	*vars;
+	t_map	*map;
+}	t_fdf;
 
 // FDF
 int fdf(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/06 09:37:09 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:56:28 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,21 @@ t_point	*ft_init_coords_point(char **all_points, int x, int y)
 	return (new_point);
 }
 
-t_point	*ft_create_point(t_map **map, t_point **tail,
+t_point	*ft_create_point(t_map *map, t_point **tail,
 			char **all_points, int x, int y)
 {
 	t_point	*new_point;
 
 	new_point = ft_init_coords_point(all_points, x, y);
-	if (!(*map)->first)
-		(*map)->first = new_point;
+	if (!(map)->first)
+		(map)->first = new_point;
 	if (*tail)
 		(*tail)->next = new_point;
 	*tail = new_point;
 	return (new_point);
 }
 
-void	ft_process_line(t_map **map, t_point **tail,
+void	ft_process_line(t_fdf **fdf, t_point **tail,
 			t_point ***prev_row, char **all_points, int y)
 {
 	t_point	*current;
@@ -126,7 +126,7 @@ void	ft_process_line(t_map **map, t_point **tail,
 		*prev_row = ft_realloc_prev_row(*prev_row, cols);
 	while (x < cols)
 	{
-		current = ft_create_point(map, tail, all_points, x, y);
+		current = ft_create_point((*fdf)->map, tail, all_points, x, y);
 		if (x > 0)
 			(*prev_row)[x - 1]->right_point = current;
 		if (y > 0)
@@ -136,15 +136,15 @@ void	ft_process_line(t_map **map, t_point **tail,
 	}
 }
 
-void	ft_finalize_map(t_map **map, t_point **prev_row, int y, char *line)
+void	ft_finalize_map(t_fdf **fdf, t_point **prev_row, int y, char *line)
 {
 	free(prev_row);
 	free(line);
-	(*map)->rows = y;
+	(*fdf)->map->lines = y;
 }
 
 
-void	ft_init_points(t_map **map, char **av)
+void	ft_init_points(t_fdf **fdf, char **av)
 {
 	t_point	*tail;
 	t_point	**prev_row;
@@ -153,7 +153,7 @@ void	ft_init_points(t_map **map, char **av)
 	int		fd;
 	int		y;
 
-	(*map)->first = NULL;
+	(*fdf)->map->first = NULL;
 	tail = NULL;
 	prev_row = NULL;
 	y = 0;
@@ -162,12 +162,12 @@ void	ft_init_points(t_map **map, char **av)
 	while (line)
 	{
 		all_points = ft_split(line, ' ');
-		ft_process_line(map, &tail, &prev_row, all_points, y);
+		ft_process_line(fdf, &tail, &prev_row, all_points, y);
 		free(all_points);
 		y++;
 		line = get_next_line(fd);
 	}
-	ft_finalize_map(map, prev_row, y, line);
+	ft_finalize_map(fdf, prev_row, y, line);
 }
 
 void	ft_print_map(t_map *map)
@@ -205,12 +205,15 @@ void	ft_print_map(t_map *map)
 
 void	ft_init_map(char **av)
 {
+	t_fdf	*fdf;
 	t_map	*map;
 	
+	fdf = (t_fdf *)malloc(sizeof(t_fdf));
 	map = (t_map *)malloc(sizeof(t_map *));
-	if (!map)
+	if (!fdf || !map)
 		return ;
-	ft_init_points(&map, av);
+	fdf->map = map;
+	ft_init_points(&fdf, av);
 	//ft_print_map(map);
 	//ft_free_all(map);
 }
