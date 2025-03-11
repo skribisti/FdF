@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/11 13:56:28 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:01:55 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,16 +203,8 @@ void	ft_print_map(t_map *map)
 	}
 }
 
-void	ft_init_map(char **av)
+void	ft_init_map(t_fdf *fdf, char **av)
 {
-	t_fdf	*fdf;
-	t_map	*map;
-	
-	fdf = (t_fdf *)malloc(sizeof(t_fdf));
-	map = (t_map *)malloc(sizeof(t_map *));
-	if (!fdf || !map)
-		return ;
-	fdf->map = map;
 	ft_init_points(&fdf, av);
 	//ft_print_map(map);
 	//ft_free_all(map);

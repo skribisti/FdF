@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/11 13:54:05 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:25:14 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,20 @@ typedef struct s_fdf
 	t_img	*img;
 	void	*vars;
 	t_map	*map;
+	float	zoom;
 }	t_fdf;
 
 // FDF
 int fdf(int ac, char **av);
+
+//MLX
+int	init_window_img(t_fdf *fdf, t_vars *vars, t_img *img);
+
+// DRAW
+int	draw_points(t_fdf *fdf, t_vars *vars, t_img *img);
+
+// LINK
+
 
 // CHECK ARGS
 int	ft_check_args(int ac, char **av);
@@ -70,7 +80,7 @@ int	ft_strcmp(char *str1, char *str2);
 int	ft_strlen(char *str);
 
 // INIT MAP
-void	ft_init_map(char **av);
+void	ft_init_map(t_fdf *fdf,char **av);
 
 // SPLIT
 char	**ft_split(char const *str, char c);
