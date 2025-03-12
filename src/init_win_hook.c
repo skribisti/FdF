@@ -6,29 +6,53 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/11 15:23:19 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/12 10:55:55 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	handle_close(t_vars *vars)
+int	verif_all_ok(t_fdf *fdf)
 {
-	printf("Window closed using the red cross button.\n");
-    mlx_destroy_window(vars->mlx, vars->win);
-    exit(0);
-    return (0);
+	if (fdf->img && fdf->img->img && fdf->mlx && fdf->win)
+		return (1);
+	return (0);
 }
 
-int	init_window_img(t_fdf *fdf, t_vars *vars, t_img *img)
+int	handle_close(t_fdf *fdf)
 {
-	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, 1920, 1080, "FdF");
-	img->img = mlx_new_image(vars->mlx, 1920, 1080);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length,
-								&img->endian);
-	draw_points(fdf, vars, img);
-	mlx_hook(vars->win, 17, 0, handle_close, &vars);
-	mlx_loop(vars->mlx);
+	if (fdf->img)
+	{
+		if (fdf->img->img)
+			mlx_destroy_image(fdf->mlx, fdf->img->img);
+		free(fdf->img);
+	}
+	if (fdf->win)
+		mlx_destroy_window(fdf->mlx, fdf->win);
+	if (fdf->mlx)
+	{
+		mlx_destroy_display(fdf->mlx);
+		free(fdf->mlx);
+	}
+    exit(0);
+	return (0);
+}
+
+int	init_window_img(t_fdf *fdf)
+{
+	fdf->img = malloc(sizeof(t_img));
+	if (!fdf->img)
+		return (1);
+	fdf->mlx = mlx_init();
+	if (!fdf->mlx)
+		return (1);
+	fdf->win = mlx_new_window(fdf->mlx, 1920, 1080, "FdF");
+	fdf->img->img = mlx_new_image(fdf->mlx, 1920, 1080);
+	fdf->img->addr = mlx_get_data_addr(fdf->img->img, &fdf->img->bits_per_pixel, &fdf->img->line_length,
+								&fdf->img->endian);
+	if (verif_all_ok(fdf))
+		draw_points(fdf);
+	mlx_hook(fdf->win, 17, 0, handle_close, &fdf);
+	mlx_loop(fdf->mlx);
 	return (1);
 }

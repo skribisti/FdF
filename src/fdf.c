@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:26:20 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/11 15:20:34 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/12 10:34:55 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@
 
 int fdf_func(t_fdf *fdf)
 {
-	t_vars	vars;
-	t_img	img;
-
-	init_window_img(fdf, &vars, &img);
+	init_window_img(fdf);
 	//draw_points(fdf, &vars, &img);
 	//link_points();
 	return (0);
