@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/12 10:28:15 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:00:13 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ typedef struct	s_img
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
-	int	color;
+	int				init_x;
+	int				init_y;
+	int				init_z;
+	int				draw_x;
+	int				draw_y;
+	int				draw_z;
+	int				color;
 	struct s_point	*right_point;
 	struct s_point	*bottom_point;
 	struct s_point	*next;
@@ -42,8 +45,8 @@ typedef struct s_point
 typedef struct s_map
 {
 	struct s_point	*first;
-	int		collums;
-	int		lines;
+	int				collums;
+	int				lines;
 }	t_map;
 
 typedef struct s_fdf
@@ -53,6 +56,9 @@ typedef struct s_fdf
 	t_img	*img;
 	t_map	*map;
 	float	zoom;
+	int		offset_x;
+	int		offset_y;
+	int		view;
 }	t_fdf;
 
 // FDF

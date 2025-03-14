@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/11 14:01:55 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:24:59 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ t_point	*ft_init_coords_point(char **all_points, int x, int y)
 	new_point = (t_point *)malloc(sizeof(t_point));
 	if (!new_point)
 		return (NULL);
-	new_point->x = x;
-	new_point->y = y;
+	new_point->x = x * 20;
+	new_point->y = y * 20;
 	new_point->z = ft_get_z(all_points[x]);
 	new_point->next = NULL;
 	new_point->right_point = NULL;
