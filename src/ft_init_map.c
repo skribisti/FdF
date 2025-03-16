@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/13 17:24:59 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:33:14 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ t_point	*ft_init_coords_point(char **all_points, int x, int y)
 	new_point = (t_point *)malloc(sizeof(t_point));
 	if (!new_point)
 		return (NULL);
-	new_point->x = x * 20;
-	new_point->y = y * 20;
-	new_point->z = ft_get_z(all_points[x]);
+	new_point->init_x = x * 20;
+	new_point->init_y = y * 20;
+	new_point->init_z = ft_get_z(all_points[x]);
 	new_point->next = NULL;
 	new_point->right_point = NULL;
 	new_point->bottom_point = NULL;
@@ -176,36 +176,59 @@ void	ft_print_map(t_map *map)
 	int		temp_y;
 
 	point = map->first;
-	temp_y = point->y;
-	printf("y = %d	", point->y);
+	temp_y = point->init_y;
+	printf("y = %d	", point->init_y);
 	while (point)
 	{
-		if (temp_y != point->y)
-			printf("\n\ny = %d	", point->y);
-		printf("(x = %d z = %d)	", point->x, point->z);
-		temp_y = point->y;
+		if (temp_y != point->init_y)
+			printf("\n\ny = %d	", point->init_y);
+		printf("(x = %d z = %d)	", point->init_x, point->init_z);
+		temp_y = point->init_y;
 		point = point->next;
 	}
 	printf("\n\nLINKS : \n");
 	point = map->first;
-	temp_y = point->y;
+	temp_y = point->init_y;
 	while (point)
 	{
-		if (point->y != temp_y)
+		if (point->init_y != temp_y)
 			printf("\n");
-		printf("%d", point->z);
+		printf("%d", point->init_z);
 		if (point->right_point)
 			printf(" ⭢ ");
 		//if (point->bottom_point)
 			//printf("⭣\n");
-		temp_y = point->y;
+		temp_y = point->init_y;
 		point = point->next;
+	}
+}
+
+void	ft_free_map(t_map *map)
+{
+	t_point	*current;
+	t_point	*temp;
+
+	if (map->first)
+	{
+		current = map->first;
+		while (current)
+		{
+			temp = current->next;
+			free(current);
+			current = temp;
+		}
+		free(map);
 	}
 }
 
 void	ft_init_map(t_fdf *fdf, char **av)
 {
+	t_map	*map;
+
+	map = (t_map *)malloc(sizeof(t_map *));
+	if (!map)
+		return ;
+	fdf->map = map;
 	ft_init_points(&fdf, av);
 	//ft_print_map(map);
-	//ft_free_all(map);
 }

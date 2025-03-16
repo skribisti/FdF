@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/14 10:00:13 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:37:49 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include "stdlib.h"
 # include "fcntl.h"
 
+# define INT_MIN -(2147483648)
+# define INT_MAX 2147483647
+
 typedef struct	s_img
 {
 	void	*img;
@@ -27,6 +30,14 @@ typedef struct	s_img
 	int		line_length;
 	int		endian;
 }	t_img;
+
+typedef struct s_offset
+{
+	int	min_x;
+	int	min_y;
+	int	max_x;
+	int	max_y;
+}	t_offset;
 
 typedef struct s_point
 {
@@ -59,6 +70,7 @@ typedef struct s_fdf
 	int		offset_x;
 	int		offset_y;
 	int		view;
+	int		switch_view;
 }	t_fdf;
 
 // FDF
@@ -66,9 +78,20 @@ int fdf(int ac, char **av);
 
 //MLX
 int	init_window_img(t_fdf *fdf);
+int	ft_init_img(t_fdf *fdf);
+int	verif_all_ok(t_fdf *fdf);
+
+// HOOK
+int	handle_hook(int keycode, t_fdf *fdf);
+void	handle_keycode(int keycode, t_fdf *fdf);
+int	handle_close(t_fdf *fdf);
 
 // DRAW
-int	draw_points(t_fdf *fdf);
+int	fdf_draw(t_fdf *fdf, int view);
+int	draw_top(t_fdf *fdf);
+
+// OFFSET
+void	fdf_calc_offset(t_fdf *fdf);
 
 // LINK
 
@@ -80,8 +103,9 @@ char *ft_take_extension(char **av);
 int	ft_strcmp(char *str1, char *str2);
 int	ft_strlen(char *str);
 
-// INIT MAP
+// MAP
 void	ft_init_map(t_fdf *fdf,char **av);
+void	ft_free_map(t_map *map);
 
 // SPLIT
 char	**ft_split(char const *str, char c);
