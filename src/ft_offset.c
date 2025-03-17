@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:30:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 14:30:49 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:41:16 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ void	calc_offset_iso(t_fdf *fdf)
 void	fdf_calc_offset(t_fdf *fdf)
 {
 	if (fdf->view == 0)
-		calc_offset_top(fdf);
-	else if (fdf->view == 1)
 		calc_offset_iso(fdf);
-	else if (fdf->view == 2)
+	else if (fdf->view == 1)
 		calc_offset_parralel(fdf);
+	else if (fdf->view == 2)
+		calc_offset_top(fdf);
 }
