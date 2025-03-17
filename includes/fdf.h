@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 09:38:22 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:03:01 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ typedef struct s_point
 	int				init_x;
 	int				init_y;
 	int				init_z;
-	int				draw_x;
-	int				draw_y;
-	int				draw_z;
+	float			draw_x;
+	float			draw_y;
 	int				color;
 	struct s_point	*right_point;
 	struct s_point	*bottom_point;

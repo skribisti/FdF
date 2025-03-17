@@ -22,11 +22,11 @@ $(LIBFT):
 	make -C libft
 
 $(NAME): $(OBJ) $(LIBFT)
-	cc $(WALL) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -Llibft -lft -o $(NAME)
+	@cc $(WALL) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -Llibft -lft -o $(NAME)
 
 clean:
 	rm -f $(OBJ)
-	make clean -C libft
+	@make clean -C libft
 
 fclean: clean
 	rm -f $(NAME)

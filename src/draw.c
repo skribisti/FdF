@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:59:13 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 08:38:52 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:32:00 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
+int	fdf_coords_in_window(t_point	*point)
+{
+	if ((point->draw_x < 0 || point->draw_x > 1920) || (point->draw_y < 0 || point->draw_y > 1080))
+		return (0);
+	return (1);
+}
+
 void	draw_top(t_fdf *fdf)
 {
 	t_point	*current;
@@ -40,7 +47,8 @@ void	draw_top(t_fdf *fdf)
 	{
 		current->draw_x = current->init_x * fdf->zoom + fdf->offset_x;
 		current->draw_y = current->init_y * fdf->zoom + fdf->offset_y;
-		my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, current->color);
+		if (fdf_coords_in_window(current))
+			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, create_trgb(1, 255, 255, 255));
 		current = current->next;
 	}
 }
@@ -72,7 +80,8 @@ int	fdf_draw(t_fdf *fdf, int view)
 		draw_parralel(fdf);*/
 	//fdf_link_points(fdf);
 	if (!verif_all_ok(fdf))
-		return (1);
+		return (ft_printf("Image non valide\n"),1);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
+	ft_printf("Image valide\n");
 	return (0);	
 }

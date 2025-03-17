@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 11:19:38 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:28:08 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,28 @@ int	handle_close(t_fdf *fdf)
 	return (0);
 }
 
-void	change_offset(int keycode, t_fdf *fdf);
+void	change_offset(int keycode, t_fdf *fdf)
+{
+	if (keycode == 122)
+		fdf->offset_y += 10;
+	if (keycode == 113)
+		fdf->offset_x += 10;
+	if (keycode == 115)
+		fdf->offset_x -=10;
+	if (keycode == 100)
+		fdf->offset_y -= 10;
+}
 
 void	handle_keycode(int keycode, t_fdf *fdf)
 {
 	if (keycode == 65307)
 		handle_close(fdf);
 	else if (keycode == 65364)
-		ft_printf("zoom out\n");//fdf->zoom *= 0.9;
+		fdf->zoom *= 0.9;
 	else if (keycode == 65362)
-		ft_printf("zoom in\n");//fdf->zoom *= 1.1;
-	else if (keycode == 115 || keycode == 100 || keycode == 97 || keycode == 119)
-		ft_printf("move\n");//change_offset(keycode, fdf);
+		fdf->zoom *= 1.1;
+	else if (keycode == 122 || keycode == 113 || keycode == 115 || keycode == 100)
+		change_offset(keycode, fdf);
 }
 
 int	handle_hook(int keycode, t_fdf *fdf)
@@ -60,9 +70,12 @@ int	handle_hook(int keycode, t_fdf *fdf)
 	if (fdf->img && fdf->img->img)
 		mlx_destroy_image(fdf->mlx, fdf->img->img);
 	fdf->img->img = mlx_new_image(fdf->mlx, 1920, 1080);
+	if (!fdf->img->img)
+		return (ft_printf("pas de new_img\n"), 1);
 	fdf->img->addr = mlx_get_data_addr(fdf->img->img,
 		&fdf->img->bits_per_pixel, &fdf->img->line_length, &fdf->img->endian);
-	if (verif_all_ok(fdf))
-		return (fdf_draw(fdf, fdf->view), 0);
-	return (1);
+	if (!verif_all_ok(fdf))
+		return (1);
+	fdf_draw(fdf, fdf->view);
+	return (0);
 }

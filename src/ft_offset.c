@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:30:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 08:49:06 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:30:49 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	calc_iso(t_fdf *fdf, t_point **current)
 	scaled_z = (*current)->init_z * fdf->zoom;
 	(*current)->draw_x = (scaled_x - scaled_y) * cos(0.523599);
 	(*current)->draw_y = -scaled_z + (scaled_x +scaled_y) * sin(0.523599);
-	(*current)->draw_z = scaled_z;
+	//(*current)->draw_z = scaled_z;
 }
 
 void	calc_offset_iso(t_fdf *fdf)
