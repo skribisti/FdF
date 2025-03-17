@@ -37,6 +37,5 @@ re: fclean all
 dev :
 	make fclean
 	git add .; git commit -m "dev"; git push
-	make all
 
 PHONY: all clean fclean re dev
