@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 09:35:10 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:19:38 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ void	handle_keycode(int keycode, t_fdf *fdf)
 		ft_printf("zoom out\n");//fdf->zoom *= 0.9;
 	else if (keycode == 65362)
 		ft_printf("zoom in\n");//fdf->zoom *= 1.1;
-	if (keycode == 115 || keycode == 100 || keycode == 97 || keycode == 119)
+	else if (keycode == 115 || keycode == 100 || keycode == 97 || keycode == 119)
 		ft_printf("move\n");//change_offset(keycode, fdf);
 }
 
 int	handle_hook(int keycode, t_fdf *fdf)
 {
+	fdf->switch_view = 1;
 	handle_keycode(keycode, fdf);
-	mlx_destroy_image(fdf->mlx, fdf->img->img);
+	if (fdf->img && fdf->img->img)
+		mlx_destroy_image(fdf->mlx, fdf->img->img);
 	fdf->img->img = mlx_new_image(fdf->mlx, 1920, 1080);
 	fdf->img->addr = mlx_get_data_addr(fdf->img->img,
 		&fdf->img->bits_per_pixel, &fdf->img->line_length, &fdf->img->endian);

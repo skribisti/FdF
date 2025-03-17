@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:26:20 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 08:34:38 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:21:00 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	main(int ac, char **av)
 	if (verif_all_ok(fdf))
 	{
 		fdf_draw(fdf, fdf->view);
-		mlx_hook(fdf->win, 17, 1L << 17, handle_close, &fdf);
-		mlx_hook(fdf->win, 2, 1L << 0, handle_hook, &fdf);
+		mlx_hook(fdf->win, 17, 1L << 17, handle_close, fdf);
+		mlx_hook(fdf->win, 2, 1L << 0, handle_hook, fdf);
 		mlx_loop(fdf->mlx);
 	}
 	handle_close(fdf);
