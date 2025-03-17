@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:59:13 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/16 14:21:08 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 08:38:52 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-int	draw_top(t_fdf *fdf)
+void	draw_top(t_fdf *fdf)
 {
 	t_point	*current;
 
 	if (!fdf->map)
-		return (1);
-	if ((!fdf->offset_x && fdf->offset_y) || (fdf->switch_view))
+		return ;
+	if ((fdf->offset_x == 0 && fdf->offset_y == 0) || (fdf->switch_view))
 		fdf_calc_offset(fdf);
 	current = fdf->map->first;
 	while (current)
@@ -43,19 +43,35 @@ int	draw_top(t_fdf *fdf)
 		my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, current->color);
 		current = current->next;
 	}
-	return (0);
 }
+
+void	draw_iso(t_fdf *fdf)
+{
+	t_point	*current;
+
+	if (!fdf->map)
+		return ;
+	if ((!fdf->offset_x && fdf->offset_y) || (fdf->switch_view))
+		fdf_calc_offset(fdf);
+	current = fdf->map->first;
+	while (current)
+	{
+		
+	}
+}
+
+void	draw_parralel(t_fdf *fdf);
 
 int	fdf_draw(t_fdf *fdf, int view)
 {
 	if (view == 0)
 		draw_top(fdf);
-	/*else if (view == 1)
+	else if (view == 1)
 		draw_iso(fdf);
-	else if (view == 2)
+	/*else if (view == 2)
 		draw_parralel(fdf);*/
 	//fdf_link_points(fdf);
-	if (!fdf->mlx || !fdf->win || !fdf->img->img)
+	if (!verif_all_ok(fdf))
 		return (1);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
 	return (0);	

@@ -6,45 +6,12 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/16 14:33:14 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 09:41:10 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	ft_isdigit(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	ft_atoi(char *str)
-{
-	int		res;
-	int		sign;
-	int		i;
-
-	i = 0;
-	sign = 1;
-	res = 0;
-	while ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign = -sign;
-		i++;
-	}
-	if (!ft_isdigit(str[i]))
-		return (0);
-	while (ft_isdigit(str[i]))
-	{
-		res = res * 10 + str[i] - '0';
-		i++;
-	}
-	return (res * sign);
-}
 int	ft_get_z(char *coords)
 {
 	int	i;
@@ -90,8 +57,8 @@ t_point	*ft_init_coords_point(char **all_points, int x, int y)
 	new_point = (t_point *)malloc(sizeof(t_point));
 	if (!new_point)
 		return (NULL);
-	new_point->init_x = x * 20;
-	new_point->init_y = y * 20;
+	new_point->init_x = x;
+	new_point->init_y = y;
 	new_point->init_z = ft_get_z(all_points[x]);
 	new_point->next = NULL;
 	new_point->right_point = NULL;

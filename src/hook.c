@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/16 14:40:28 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 09:35:10 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	handle_keycode(int keycode, t_fdf *fdf)
 	if (keycode == 65307)
 		handle_close(fdf);
 	else if (keycode == 65364)
-		fdf->zoom *= 0.9;
+		ft_printf("zoom out\n");//fdf->zoom *= 0.9;
 	else if (keycode == 65362)
-		fdf->zoom *= 1.1;
+		ft_printf("zoom in\n");//fdf->zoom *= 1.1;
 	if (keycode == 115 || keycode == 100 || keycode == 97 || keycode == 119)
-		change_offset(keycode, fdf);
+		ft_printf("move\n");//change_offset(keycode, fdf);
 }
 
 int	handle_hook(int keycode, t_fdf *fdf)

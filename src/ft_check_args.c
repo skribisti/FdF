@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:22:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/04 15:59:18 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 09:39:21 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strcmp(char *str1, char *str2)
 
 	i = 0;
 	while (str1[i] && str2[i] && str1[i] == str2[i] 
-	&& i < ft_strlen(str1) && i < ft_strlen(str2))
+	&& i < (int)ft_strlen(str1) && i < (int)ft_strlen(str2))
 		i++;
 	return (str1[i] - str2[i]);
 }
@@ -31,7 +31,7 @@ char *ft_take_extension(char **av)
 	i = 0;
 	while (av[1][i] != '.' && av[1][i + 1])
 		i++;
-	if (i == ft_strlen(av[1]))
+	if (i == (int)ft_strlen(av[1]))
 		return (NULL);
 	ext = av[1] + (ft_strlen(av[1]) - 4);
 	return (ext);

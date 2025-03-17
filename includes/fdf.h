@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/16 14:37:49 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 09:38:22 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 # define FDF_H
 
 # include "../mlx_linux/mlx.h"
+# include "../libft/includes/libft.h"
 # include "get_next_line.h"
 # include "stdio.h"
 # include "stdlib.h"
 # include "fcntl.h"
-
-# define INT_MIN -(2147483648)
-# define INT_MAX 2147483647
+# include "math.h"
 
 typedef struct	s_img
 {
@@ -75,10 +74,10 @@ typedef struct s_fdf
 
 // FDF
 int fdf(int ac, char **av);
+t_fdf	*ft_init_fdf_and_img();
 
 //MLX
 int	init_window_img(t_fdf *fdf);
-int	ft_init_img(t_fdf *fdf);
 int	verif_all_ok(t_fdf *fdf);
 
 // HOOK
@@ -87,8 +86,8 @@ void	handle_keycode(int keycode, t_fdf *fdf);
 int	handle_close(t_fdf *fdf);
 
 // DRAW
-int	fdf_draw(t_fdf *fdf, int view);
-int	draw_top(t_fdf *fdf);
+int		fdf_draw(t_fdf *fdf, int view);
+void	draw_top(t_fdf *fdf);
 
 // OFFSET
 void	fdf_calc_offset(t_fdf *fdf);
@@ -101,7 +100,6 @@ int	ft_check_args(int ac, char **av);
 int	ft_check_open(char **av);
 char *ft_take_extension(char **av);
 int	ft_strcmp(char *str1, char *str2);
-int	ft_strlen(char *str);
 
 // MAP
 void	ft_init_map(t_fdf *fdf,char **av);

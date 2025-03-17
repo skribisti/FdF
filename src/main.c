@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:26:20 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/16 14:38:37 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/17 08:34:38 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 int	main(int ac, char **av)
 {
 	t_fdf	*fdf;
-	
+
 	if (!ft_check_args(ac, av))
 		return (1);
-	fdf = (t_fdf *)malloc(sizeof(t_fdf));
+	fdf = ft_init_fdf_and_img();
+	ft_init_map(fdf, av);
 	if (!fdf)
 		return (1);
-	ft_init_map(fdf, av);
-	ft_init_img(fdf);
 	if (verif_all_ok(fdf))
 	{
 		fdf_draw(fdf, fdf->view);
