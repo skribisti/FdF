@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 15:25:52 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:23:37 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	handle_keycode(int keycode, t_fdf *fdf)
 	else if (keycode == 122 || keycode == 113 || keycode == 115 || keycode == 100)
 		change_offset(keycode, fdf);
 	if (keycode == 105)
-		ft_printf("iso\n");//fdf->view = 0;
+		fdf->view = 0;
 	if (keycode == 112)
-		ft_printf("parr\n");//fdf->view = 1;
+		fdf->view = 1;
 	if (keycode == 116)
-		ft_printf("top\n");//fdf->view = 2;
+		fdf->view = 2;
 }
 
 int	handle_hook(int keycode, t_fdf *fdf)

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 13:48:24 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:35:54 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 int	ft_get_z(char *coords)
 {
 	int	i;
+	int	res;
+	char	*sub;
 	
 	i = 0;
 	while (coords[i] && coords[i] != '\n' && coords[i] != ',')
 		i++;
-	return (ft_atoi(ft_substr(coords, 0, i)));
+	sub = ft_substr(coords, 0, i);
+	res = ft_atoi(sub);
+	free (sub);
+	return (res);
 }
 
 t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
@@ -104,6 +109,19 @@ void	ft_process_line(t_fdf **fdf, t_point **tail,
 	}
 }
 
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
 void	ft_finalize_map(t_fdf **fdf, t_point **prev_row, int y, char *line)
 {
 	free(prev_row);
@@ -131,7 +149,8 @@ void	ft_init_points(t_fdf **fdf, char **av)
 	{
 		all_points = ft_split(line, ' ');
 		ft_process_line(fdf, &tail, &prev_row, all_points, y);
-		free(all_points);
+		free_split(all_points);
+		free(line);
 		y++;
 		line = get_next_line(fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:30:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 15:41:16 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:37:34 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	calc_offset_top(t_fdf *fdf)
 	}
 	fdf->offset_x = (1920 - (off->max_x - off->min_x)) / 2 - off->min_x;
 	fdf->offset_y = (1080 - (off->max_y - off->min_y)) / 2 - off->min_y;
+	if (off)
+		free(off);
 }
 
 void	calc_offset_parralel(t_fdf *fdf)
@@ -74,6 +76,8 @@ void	calc_offset_parralel(t_fdf *fdf)
 	}
 	fdf->offset_x = (1920 - (off->max_x - off->min_x)) / 2 - off->min_x;
 	fdf->offset_y = (1080 - (off->max_y - off->min_y)) / 2 - off->min_y;
+	if (off)
+		free(off);
 }
 
 void	calc_iso(t_fdf *fdf, t_point **current)
@@ -87,7 +91,6 @@ void	calc_iso(t_fdf *fdf, t_point **current)
 	scaled_z = (*current)->init_z * fdf->zoom;
 	(*current)->draw_x = (scaled_x - scaled_y) * cos(0.523599);
 	(*current)->draw_y = -scaled_z + (scaled_x +scaled_y) * sin(0.523599);
-	//(*current)->draw_z = scaled_z;
 }
 
 void	calc_offset_iso(t_fdf *fdf)
@@ -112,6 +115,8 @@ void	calc_offset_iso(t_fdf *fdf)
 	}
 	fdf->offset_x = (1920 - (off->max_x - off->min_x)) / 2 - off->min_x;
 	fdf->offset_y = (1080 - (off->max_y - off->min_y)) / 2 - off->min_y;
+	if (off)
+		free(off);
 }
 
 void	fdf_calc_offset(t_fdf *fdf)
