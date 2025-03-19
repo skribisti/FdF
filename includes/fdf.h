@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 14:03:01 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:26:26 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ typedef struct s_offset
 	int	max_x;
 	int	max_y;
 }	t_offset;
+
+typedef struct s_bresenham
+{
+	int		delta_x;
+	int		delta_y;
+	int		delta;
+	int		e2;
+	int		x;
+	int		y;
+	int		slope_x;
+	int		slope_y;
+}	t_bresenham;
 
 typedef struct s_point
 {
@@ -92,7 +104,7 @@ void	draw_top(t_fdf *fdf);
 void	fdf_calc_offset(t_fdf *fdf);
 
 // LINK
-
+int	fdf_link_points(t_fdf *fdf);
 
 // CHECK ARGS
 int	ft_check_args(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:59:13 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 15:55:39 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:39:37 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	draw_parralel(t_fdf *fdf)
 		current = current->next;
 	}
 }
+
 
 
 int	fdf_draw(t_fdf *fdf, int view)
