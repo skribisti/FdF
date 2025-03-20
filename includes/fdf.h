@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/19 14:48:18 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:53:10 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	handle_close(t_fdf *fdf);
 int		fdf_draw(t_fdf *fdf, int view);
 void	draw_top(t_fdf *fdf);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int		create_trgb(int t, int r, int g, int b);
 
 // OFFSET
 void	fdf_calc_offset(t_fdf *fdf);

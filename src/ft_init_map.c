@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/18 16:35:54 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:53:47 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,30 @@ int	ft_get_z(char *coords)
 	res = ft_atoi(sub);
 	free (sub);
 	return (res);
+}
+
+int	ft_get_color(char *coords)
+{
+	int	i;
+	int	j;
+	int	color;
+	char *sub;
+
+	i = 0;
+	while (coords[i] && coords[i] != '\n' && coords[i] != ',')
+		i++;
+	j = i;
+	if (coords[i] == ',')
+	{
+		while (coords[j])
+			j++;
+	}
+	if (j == i)
+		return (create_trgb(1, 255, 255, 255));
+	sub = ft_substr(coords, i, j);
+	color = ft_atoi(sub);
+	free (sub);
+	return (color);
 }
 
 t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
@@ -65,6 +89,7 @@ t_point	*ft_init_coords_point(char **all_points, int x, int y)
 	new_point->init_x = x * 20;
 	new_point->init_y = y * 20;
 	new_point->init_z = ft_get_z(all_points[x]);
+	new_point->color = ft_get_color(all_points[x]);
 	new_point->next = NULL;
 	new_point->right_point = NULL;
 	new_point->bottom_point = NULL;

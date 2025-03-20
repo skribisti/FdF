@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:59:13 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/19 11:39:37 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:53:04 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	draw_top(t_fdf *fdf)
 		current->draw_x = current->init_x * fdf->zoom + fdf->offset_x;
 		current->draw_y = current->init_y * fdf->zoom + fdf->offset_y;
 		if (fdf_coords_in_window(current))
-			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, create_trgb(1, 255, 255, 255));
+			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, current->color);
 		current = current->next;
 	}
 }
