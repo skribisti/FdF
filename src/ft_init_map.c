@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/23 15:11:30 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:16:01 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,6 @@ int	ft_get_color(char *coords)
 	return (color);
 }
 
-void	ft_free_prev_row(t_point **prev_row)
-{
-	int	i;
-
-	i = 0;
-    if (prev_row) 
-	{
-        while (prev_row[i])
-		{
-            free(prev_row[i]);
-			i++;
-        }
-        free(prev_row);
-    }
-}
-
 t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
 {
 	t_point	**new_row;
@@ -121,7 +105,8 @@ t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
 		new_row[i] = NULL;
 		i++;
 	}
-	ft_free_prev_row(prev_row);
+	if (prev_row)
+		free(prev_row);
 	return (new_row);
 }
 
@@ -176,8 +161,8 @@ void	ft_process_line(t_fdf **fdf, t_point **tail,
 
 	x = 0;
 	cols = ft_count_cols(all_points);
-	if (y == 0)
-		*prev_row = ft_realloc_prev_row(*prev_row, cols);
+	//if (y == 0)
+	*prev_row = ft_realloc_prev_row(*prev_row, cols);
 	while (x < cols)
 	{
 		current = ft_create_point((*fdf)->map, tail, all_points, x, y);
@@ -228,7 +213,6 @@ void	ft_init_points(t_fdf **fdf, char **av)
 		line = get_next_line(fd);
 	}
 	free(line);
-	(*fdf)->map->lines = y;
 }
 
 void	ft_free_map(t_map *map)
