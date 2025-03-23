@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:15:49 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/19 14:57:42 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:49:02 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	init_bresenham(t_bresenham *bres, t_point *p1, t_point *p2)
 {
-	bres->delta_x = abs(p2->draw_x - p1->draw_x);
-	bres->delta_y = abs(p2->draw_y - p1->draw_y);
+	bres->delta_x = abs((int)p2->draw_x - (int)p1->draw_x);
+	bres->delta_y = abs((int)p2->draw_y - (int)p1->draw_y);
 	bres->delta = bres->delta_x - bres->delta_y;
-	bres->x = p1->draw_x;
-	bres->y = p1->draw_y;
+	bres->x = (int)p1->draw_x;
+	bres->y = (int)p1->draw_y;
 	if (p1->draw_x < p2->draw_x)
 		bres->slope_x = 1;
 	else
@@ -29,8 +29,29 @@ void	init_bresenham(t_bresenham *bres, t_point *p1, t_point *p2)
 		bres->slope_y = -1;
 }
 
-int	create_gradient(t_point *p1, t_point *p2, int x)
+void	check_colors(int *red, int *green, int *blue)
 {
+	int *colors[3];
+	int	i;
+
+	colors[0] = red;
+	colors[1] = green;
+	colors[2] = blue;
+	i = 0;
+	while (colors[i])
+	{
+		if (*colors[i] < 0)
+			*colors[i] = 0;
+		if (*colors[i] > 255)
+			*colors[i] = 255;
+		i++;
+	}
+}
+
+int	create_gradient(t_point *p1, t_point *p2, t_bresenham *bres)
+{
+	float total_dist;
+	float current_dist;
 	float	percent;
 	int		red;
 	int		green;
@@ -38,56 +59,71 @@ int	create_gradient(t_point *p1, t_point *p2, int x)
 
 	if (p1->color == p2->color)
 		return (p1->color);
-	if (p1->draw_x == p2->draw_x)
+	total_dist = sqrt(pow(p2->draw_x - p1->draw_x, 2) + pow(p2->draw_y - p1->draw_y, 2));
+	if (total_dist == 0)
 		return (p1->color);
-	percent = (float)(x - p1->draw_x) / (p2->draw_x - p1->draw_x);
+	current_dist = sqrt(pow(bres->x - p1->draw_x, 2) + pow(bres->y - p1->draw_y, 2));
+	percent = current_dist / total_dist;
+	if (percent > 1)
+		percent = 1;
+	if (percent < 0)
+		percent = 0;
 	red = (int)((p1->color >> 16) + percent * ((p2->color >> 16)
 				- (p1->color >> 16)));
 	green = (int)((p1->color >> 8 & 0xFF) + percent * ((p2->color >> 8 & 0xFF)
 				- (p1->color >> 8 & 0xFF)));
 	blue = (int)((p1->color & 0xFF) + percent * ((p2->color & 0xFF)
 				- (p1->color & 0xFF)));
+	check_colors(&red, &green, &blue);
 	return ((red << 16) | (green << 8) | blue);
 }
 
-int	ft_link(t_fdf *fdf, t_point *p1, t_point *p2)
+void	ft_link(t_fdf *fdf, t_bresenham *bres, t_point *p1, t_point *p2)
 {
-	t_bresenham	*bres;
-	t_point		*temp;
-
-	init_bresenham(&bres, p1, p2);
-	temp = p1;
+	int	gradient;
+	init_bresenham(bres, p1, p2);
 	while (1)
 	{
-		my_mlx_pixel_put(fdf, p1->draw_x, p1->draw_y, 
-				create_gradient(temp, p2, p1->draw_x));
-		if (p1->draw_x == p2->draw_x && p1->draw_y == p2->draw_y)
+		if (fdf_coords_in_window((float)bres->x, (float)bres->y))
+		{
+			gradient = create_gradient(p1, p2, bres);
+			if (gradient != 0)
+				my_mlx_pixel_put(fdf->img, bres->x, bres->y, gradient);
+		}
+		//my_mlx_pixel_put(fdf->img, bres->x, bres->y, create_trgb(1, 255, 255, 255));
+		if (bres->x == (int)p2->draw_x && bres->y == (int)p2->draw_y)
 			break ;
 		bres->e2 = bres->delta * 2;
 		if (bres->e2 >= -bres->delta_y)
 		{
 			bres->delta -= bres->delta_y;
-			p1->draw_x += bres->slope_x;
+			bres->x += bres->slope_x;
 		}
 		if (bres->e2 < bres->delta_x)
 		{
 			bres->delta += bres->delta_x;
-			p1->draw_y += bres->slope_y;
+			bres->y += bres->slope_y;
 		}
 	}
 }
 
 int	fdf_link_points(t_fdf *fdf)
 {
-	t_point	*point;
-	
+	t_point		*point;
+	t_bresenham	*bres;
+
 	point = fdf->map->first;
+	bres = malloc(sizeof(t_bresenham));
+	if (!bres)
+		return (1);
 	while (point)
 	{
 		if (point->right_point)
-			ft_link(fdf, point, point->right_point);
+			ft_link(fdf, bres, point, point->right_point);
 		if (point->bottom_point)
-			ft_link(fdf, point, point->bottom_point);
-		point = point ->next;
+			ft_link(fdf, bres, point, point->bottom_point);
+		point = point->next;
 	}
+	free(bres);
+	return (0);
 }

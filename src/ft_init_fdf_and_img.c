@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:05:31 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/18 16:22:48 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:29:13 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_fdf	*ft_init_fdf(t_fdf *fdf)
 	fdf->offset_x = 0;
 	fdf->offset_y = 0;
 	fdf->switch_view = 0;
-	fdf->view = 1;
+	fdf->view = 0;
 	fdf->win = NULL;
 	fdf->zoom = 1.0;
 	fdf = ft_init_img(fdf);

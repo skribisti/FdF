@@ -7,7 +7,8 @@ SRC = src/main.c \
 	src/ft_split.c \
 	src/get_next_line/get_next_line.c \
 	src/get_next_line/get_next_line_utils.c \
-	src/draw.c src/hook.c
+	src/draw.c src/hook.c \
+	src/ft_link.c
 WALL = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/20 11:53:47 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:11:30 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,46 @@ int	ft_get_z(char *coords)
 	return (res);
 }
 
+int	ft_in_base(char c, char *base)
+{
+	int	i;
+
+	i = 0;
+	while (base[i] && base[i] != c)
+		i++;
+	if (base[i] && base[i] == c)
+		return (1);
+	return (0);
+}
+
+int	ft_ismaj(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (1);
+	return (0);
+}
+
+int	ft_atoi_base(const char *nptr, char *base)
+{
+	int		res;
+	int		i;
+	char	*str;
+
+	str = (char *)nptr;
+	i = 0;
+	res = 0;
+	while (str[i] && ft_in_base(str[i], base))
+	{
+		res *= ft_strlen(base);
+		if (ft_isdigit(str[i]))
+			res += str[i] - '0';
+		else if (ft_ismaj(str[i]))
+			res += str[i] - 55;
+		i++;
+	}
+	return (res);
+}
+
 int	ft_get_color(char *coords)
 {
 	int	i;
@@ -37,18 +77,34 @@ int	ft_get_color(char *coords)
 	i = 0;
 	while (coords[i] && coords[i] != '\n' && coords[i] != ',')
 		i++;
-	j = i;
+	j = i + 3;
 	if (coords[i] == ',')
 	{
 		while (coords[j])
 			j++;
 	}
-	if (j == i)
+	if (j == i + 3)
 		return (create_trgb(1, 255, 255, 255));
-	sub = ft_substr(coords, i, j);
-	color = ft_atoi(sub);
+	sub = ft_substr(coords, i + 3, j);
+	color = ft_atoi_base(sub, "0123456789ABCDEF");
 	free (sub);
 	return (color);
+}
+
+void	ft_free_prev_row(t_point **prev_row)
+{
+	int	i;
+
+	i = 0;
+    if (prev_row) 
+	{
+        while (prev_row[i])
+		{
+            free(prev_row[i]);
+			i++;
+        }
+        free(prev_row);
+    }
 }
 
 t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
@@ -65,7 +121,7 @@ t_point	**ft_realloc_prev_row(t_point **prev_row, int cols)
 		new_row[i] = NULL;
 		i++;
 	}
-	free(prev_row);
+	ft_free_prev_row(prev_row);
 	return (new_row);
 }
 
@@ -147,14 +203,6 @@ void	free_split(char **split)
 	free(split);
 }
 
-void	ft_finalize_map(t_fdf **fdf, t_point **prev_row, int y, char *line)
-{
-	free(prev_row);
-	free(line);
-	(*fdf)->map->lines = y;
-}
-
-
 void	ft_init_points(t_fdf **fdf, char **av)
 {
 	t_point	*tail;
@@ -179,40 +227,8 @@ void	ft_init_points(t_fdf **fdf, char **av)
 		y++;
 		line = get_next_line(fd);
 	}
-	ft_finalize_map(fdf, prev_row, y, line);
-}
-
-void	ft_print_map(t_map *map)
-{
-	t_point	*point;
-	int		temp_y;
-
-	point = map->first;
-	temp_y = point->init_y;
-	printf("y = %d	", point->init_y);
-	while (point)
-	{
-		if (temp_y != point->init_y)
-			printf("\n\ny = %d	", point->init_y);
-		printf("(x = %d z = %d)	", point->init_x, point->init_z);
-		temp_y = point->init_y;
-		point = point->next;
-	}
-	printf("\n\nLINKS : \n");
-	point = map->first;
-	temp_y = point->init_y;
-	while (point)
-	{
-		if (point->init_y != temp_y)
-			printf("\n");
-		printf("%d", point->init_z);
-		if (point->right_point)
-			printf(" ⭢ ");
-		//if (point->bottom_point)
-			//printf("⭣\n");
-		temp_y = point->init_y;
-		point = point->next;
-	}
+	free(line);
+	(*fdf)->map->lines = y;
 }
 
 void	ft_free_map(t_map *map)
@@ -237,10 +253,9 @@ void	ft_init_map(t_fdf *fdf, char **av)
 {
 	t_map	*map;
 
-	map = (t_map *)malloc(sizeof(t_map *));
+	map = (t_map *)malloc(sizeof(t_map));
 	if (!map)
 		return ;
 	fdf->map = map;
 	ft_init_points(&fdf, av);
-	//ft_print_map(map);
 }

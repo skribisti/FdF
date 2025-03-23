@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/18 16:23:37 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:13:20 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	handle_close(t_fdf *fdf)
 		ft_free_map(fdf->map);
 	if (fdf->img)
 		free(fdf->img);
+	if (fdf)
+		free(fdf);
     exit(0);
 	return (0);
 }

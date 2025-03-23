@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:59:13 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/20 11:53:04 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:48:10 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-int	fdf_coords_in_window(t_point	*point)
+int	fdf_coords_in_window(float x, float y)
 {
-	if ((point->draw_x < 0 || point->draw_x > 1920) || (point->draw_y < 0 || point->draw_y > 1080))
+	if (x < 0 || x >= 1920)
+		return (0);
+	if (y < 0 || y >= 1080)
 		return (0);
 	return (1);
 }
@@ -47,7 +49,7 @@ void	draw_top(t_fdf *fdf)
 	{
 		current->draw_x = current->init_x * fdf->zoom + fdf->offset_x;
 		current->draw_y = current->init_y * fdf->zoom + fdf->offset_y;
-		if (fdf_coords_in_window(current))
+		if (fdf_coords_in_window(current->draw_x, current->draw_y))
 			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, current->color);
 		current = current->next;
 	}
@@ -59,10 +61,12 @@ void	draw_iso(t_fdf *fdf)
 	float	scale_x;
 	float	scale_y;
 
-	if (!fdf->map)
+	if (!fdf->map || !fdf->map->first)
 		return ;
-	if ((!fdf->offset_x && fdf->offset_y) || (fdf->switch_view))
+	if ((!fdf->offset_x && !fdf->offset_y) || (fdf->switch_view))
 		fdf_calc_offset(fdf);
+	if (fdf->zoom <= 0)
+		fdf->zoom = 1;
 	current = fdf->map->first;
 	while (current)
 	{
@@ -71,8 +75,8 @@ void	draw_iso(t_fdf *fdf)
 		current->draw_x = (scale_x - scale_y) * cos(0.53599) + fdf->offset_x;
 		current->draw_y = (scale_x + scale_y) * sin(0.523599)
 			- (current->init_z * fdf->zoom) + fdf->offset_y;
-		if (fdf_coords_in_window(current))
-			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, create_trgb(1, 255, 255, 255));
+		if (fdf_coords_in_window(current->draw_x, current->draw_y))
+			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, current->color);
 		current = current->next;
 	}
 }
@@ -90,13 +94,11 @@ void	draw_parralel(t_fdf *fdf)
 	{
 		current->draw_x = current->init_x * fdf->zoom + fdf->offset_x;
 		current->draw_y = -current->init_z * fdf->zoom + fdf->offset_y;
-		if (fdf_coords_in_window(current))
-			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, create_trgb(1, 255, 255, 255));
+		if (fdf_coords_in_window(current->draw_x, current->draw_y))
+			my_mlx_pixel_put(fdf->img, current->draw_x, current->draw_y, current->color);
 		current = current->next;
 	}
 }
-
-
 
 int	fdf_draw(t_fdf *fdf, int view)
 {
@@ -106,7 +108,7 @@ int	fdf_draw(t_fdf *fdf, int view)
 		draw_parralel(fdf);
 	else if (view == 2)
 		draw_top(fdf);
-	//fdf_link_points(fdf);
+	fdf_link_points(fdf);
 	if (!verif_all_ok(fdf))
 		return (ft_printf("Image non valide\n"),1);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
