@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:12:53 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/23 15:53:29 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:43:14 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	handle_close(t_fdf *fdf)
 		free(fdf->img);
 	if (fdf)
 		free(fdf);
-    exit(0);
+	exit (0);
 	return (0);
 }
 
@@ -50,25 +50,25 @@ void	change_offset(int keycode, t_fdf *fdf)
 	if (keycode == 115)
 		fdf->offset_y -= 10;
 	if (keycode == 100)
-		fdf->offset_x -=10;
+		fdf->offset_x -= 10;
 	fdf->switch_view = 0;
 }
 
-void	handle_keycode(int keycode, t_fdf *fdf)
+void	handle_keycode(int key, t_fdf *fdf)
 {
-	if (keycode == 65307)
+	if (key == 65307)
 		handle_close(fdf);
-	else if (keycode == 65364)
+	else if (key == 65364)
 		fdf->zoom *= 0.9;
-	else if (keycode == 65362)
+	else if (key == 65362)
 		fdf->zoom *= 1.1;
-	else if (keycode == 122 || keycode == 113 || keycode == 115 || keycode == 100)
-		change_offset(keycode, fdf);
-	if (keycode == 105)
+	else if (key == 122 || key == 113 || key == 115 || key == 100)
+		change_offset(key, fdf);
+	if (key == 105)
 		fdf->view = 0;
-	if (keycode == 112)
+	if (key == 112)
 		fdf->view = 1;
-	if (keycode == 116)
+	if (key == 116)
 		fdf->view = 2;
 }
 
@@ -81,8 +81,8 @@ int	handle_hook(int keycode, t_fdf *fdf)
 	fdf->img->img = mlx_new_image(fdf->mlx, 1920, 1080);
 	if (!fdf->img->img)
 		return (ft_printf("pas de new_img\n"), 1);
-	fdf->img->addr = mlx_get_data_addr(fdf->img->img,
-		&fdf->img->bits_per_pixel, &fdf->img->line_length, &fdf->img->endian);
+	fdf->img->addr = mlx_get_data_addr(fdf->img->img, &fdf->img->bits_per_pixel,
+			&fdf->img->line_length, &fdf->img->endian);
 	if (!verif_all_ok(fdf))
 		return (1);
 	fdf_draw(fdf, fdf->view);

@@ -6,11 +6,11 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:05:31 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/22 19:29:13 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:51:52 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/fdf.h"
+#include "../includes/fdf.h"
 
 t_fdf	*ft_init_img(t_fdf *fdf)
 {
@@ -25,9 +25,15 @@ t_fdf	*ft_init_img(t_fdf *fdf)
 		return (free(fdf->img), free(fdf->mlx), NULL);
 	fdf->img->img = mlx_new_image(fdf->mlx, 1920, 1080);
 	if (!fdf->img->img)
-		return (mlx_destroy_window(fdf->mlx, fdf->win), free(fdf->img), free(fdf->mlx), NULL);
-	fdf->img->addr = mlx_get_data_addr(fdf->img->img, 
-		&fdf->img->bits_per_pixel, &fdf->img->line_length, &fdf->img->endian);
+	{
+		mlx_destroy_window(fdf->mlx, fdf->win);
+		free(fdf->img);
+		free(fdf->mlx);
+		return (NULL);
+	}
+	fdf->img->addr = mlx_get_data_addr(fdf->img->img,
+			&fdf->img->bits_per_pixel, &fdf->img->line_length,
+			&fdf->img->endian);
 	return (fdf);
 }
 
@@ -46,11 +52,13 @@ t_fdf	*ft_init_fdf(t_fdf *fdf)
 	return (fdf);
 }
 
-t_fdf	*ft_init_fdf_and_img()
+t_fdf	*ft_init_fdf_and_img(void)
 {
 	t_fdf	*fdf;
-	fdf = (t_fdf *)malloc(sizeof(t_fdf));
 
+	fdf = (t_fdf *)malloc(sizeof(t_fdf));
+	if (!fdf)
+		return (NULL);
 	fdf = ft_init_fdf(fdf);
 	return (fdf);
 }

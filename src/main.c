@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:26:20 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/23 15:13:02 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:11:41 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ int	main(int ac, char **av)
 		mlx_loop(fdf->mlx);
 	}
 	handle_close(fdf);
-	return(0);
+	return (0);
 }

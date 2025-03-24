@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 08:41:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/04 15:58:38 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:13:53 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

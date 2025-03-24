@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:22:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/17 09:39:21 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:52:31 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	while (str1[i] && str2[i] && str1[i] == str2[i] 
-	&& i < (int)ft_strlen(str1) && i < (int)ft_strlen(str2))
+	while (str1[i] && str2[i] && str1[i] == str2[i]
+		&& i < (int)ft_strlen(str1) && i < (int)ft_strlen(str2))
 		i++;
 	return (str1[i] - str2[i]);
 }
 
-char *ft_take_extension(char **av)
+char	*ft_take_extension(char **av)
 {
-	char *ext;
-	int	i;
+	char	*ext;
+	int		i;
 
 	i = 0;
 	while (av[1][i] != '.' && av[1][i + 1])
@@ -39,8 +39,8 @@ char *ft_take_extension(char **av)
 
 int	ft_check_open(char **av)
 {
-	char *file;
-	int	fd;
+	char	*file;
+	int		fd;
 
 	file = av[1];
 	fd = open(file, O_RDONLY);
@@ -51,18 +51,18 @@ int	ft_check_open(char **av)
 
 int	ft_check_args(int ac, char **av)
 {
-	char *extension;
+	char	*extension;
 
 	if (ac < 2)
-		return(printf("Not enough arguments.\n"), 0);
+		return (ft_printf("Not enough arguments.\n"), 0);
 	if (ac > 2)
-		return(printf("Too much arguments.\n"), 0);
+		return (ft_printf("Too much arguments.\n"), 0);
 	extension = ft_take_extension(av);
 	if (!extension)
-		return(printf("No file extension.\n"), 0);
-	if (ft_strcmp(extension, ".fdf" )!= 0)
-		return(printf("Not good file extension.\n"), 0);
+		return (ft_printf("No file extension.\n"), 0);
+	if (ft_strcmp(extension, ".fdf" ) != 0)
+		return (ft_printf("Not good file extension.\n"), 0);
 	if (!ft_check_open(av))
-		return(printf("Error when opening file...\n"), 0);
+		return (ft_printf("Error when opening file...\n"), 0);
 	return (1);
 }

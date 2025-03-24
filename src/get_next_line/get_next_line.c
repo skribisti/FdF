@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 09:38:08 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/04 15:58:56 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:14:06 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_read_to_remainder(int fd, char *remainder)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
-			return (free(remainder), remainder = 	NULL, free(buffer), NULL);
+			return (free(remainder), remainder = NULL, free(buffer), NULL);
 		if (read_bytes == 0 && !remainder)
 			return (free(buffer), NULL);
 		buffer[read_bytes] = 0;

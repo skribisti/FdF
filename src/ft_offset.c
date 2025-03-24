@@ -6,13 +6,13 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:30:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/22 17:56:38 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:13:43 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-t_offset	*ft_init_offset()
+t_offset	*ft_init_offset(void)
 {
 	t_offset	*off;
 
@@ -78,21 +78,6 @@ void	calc_offset_parralel(t_fdf *fdf)
 	fdf->offset_y = (1080 - (off->max_y - off->min_y)) / 2 - off->min_y;
 	if (off)
 		free(off);
-}
-
-void	calc_iso(t_fdf *fdf, t_point **current)
-{
-	float	scaled_x;
-	float	scaled_y;
-	float	scaled_z;
-
-	if (!current || !(*current))
-		return ;
-	scaled_x = (*current)->init_x * fdf->zoom;
-	scaled_y = (*current)->init_y * fdf->zoom;
-	scaled_z = (*current)->init_z * fdf->zoom;
-	(*current)->draw_x = (scaled_x - scaled_y) * cos(0.523599);
-	(*current)->draw_y = -scaled_z + (scaled_x +scaled_y) * sin(0.523599);
 }
 
 void	calc_offset_iso(t_fdf *fdf)

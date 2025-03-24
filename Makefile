@@ -2,13 +2,18 @@ NAME = fdf
 SRC = src/main.c \
 	src/ft_check_args.c \
 	src/ft_init_map.c \
+	src/ft_map_utils.c \
+	src/ft_map_utils2.c \
 	src/ft_init_fdf_and_img.c \
 	src/ft_offset.c \
 	src/ft_split.c \
 	src/get_next_line/get_next_line.c \
 	src/get_next_line/get_next_line_utils.c \
-	src/draw.c src/hook.c \
-	src/ft_link.c
+	src/draw.c \
+	src/utils.c \
+	src/hook.c \
+	src/ft_link.c \
+	src/ft_link_utils.c 
 WALL = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 

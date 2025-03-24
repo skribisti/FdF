@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/23 16:09:00 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:15:16 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 # include "../mlx_linux/mlx.h"
 # include "../libft/includes/libft.h"
 # include "get_next_line.h"
-# include "stdio.h"
 # include "stdlib.h"
 # include "fcntl.h"
 # include "math.h"
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img;
 	char	*addr;
@@ -83,40 +82,55 @@ typedef struct s_fdf
 	int		switch_view;
 }	t_fdf;
 
+// FOR NORM IN INIT_MAP
+typedef struct s_data
+{
+	t_fdf	**fdf;
+	t_point	**tail;
+	t_point	***prev_row;
+}	t_data;
+
 // FDF
-int fdf(int ac, char **av);
-t_fdf	*ft_init_fdf_and_img();
+int		fdf(int ac, char **av);
+t_fdf	*ft_init_fdf_and_img(void);
 
 //MLX
-int	init_window_img(t_fdf *fdf);
-int	verif_all_ok(t_fdf *fdf);
+int		init_window_img(t_fdf *fdf);
+int		verif_all_ok(t_fdf *fdf);
 
 // HOOK
-int	handle_hook(int keycode, t_fdf *fdf);
+int		handle_hook(int keycode, t_fdf *fdf);
 void	handle_keycode(int keycode, t_fdf *fdf);
-int	handle_close(t_fdf *fdf);
+int		handle_close(t_fdf *fdf);
 
 // DRAW
 int		fdf_draw(t_fdf *fdf, int view);
-void	draw_top(t_fdf *fdf);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int		create_trgb(int t, int r, int g, int b);
 int		fdf_coords_in_window(float x, float y);
 
 // OFFSET
 void	fdf_calc_offset(t_fdf *fdf);
+void	calc_iso(t_fdf *fdf, t_point **current);
 
 // LINK
-int	fdf_link_points(t_fdf *fdf);
+int		fdf_link_points(t_fdf *fdf);
+void	ft_calc_colors(t_point *p1, t_point *p2, int rgb[3], float percent);
+void	init_bresenham(t_bresenham *bres, t_point *p1, t_point *p2);
 
 // CHECK ARGS
-int	ft_check_args(int ac, char **av);
-int	ft_check_open(char **av);
-char *ft_take_extension(char **av);
-int	ft_strcmp(char *str1, char *str2);
+int		ft_check_args(int ac, char **av);
+int		ft_check_open(char **av);
+char	*ft_take_extension(char **av);
+int		ft_strcmp(char *str1, char *str2);
 
 // MAP
-void	ft_init_map(t_fdf *fdf,char **av);
+void	ft_init_map(t_fdf *fdf, char **av);
+int		ft_get_z(char *coords);
+int		ft_get_color(char *coords);
+int		ft_count_cols(char **all_points);
+void	free_split(char **split);
+t_point	**ft_realloc_prev_row(t_point **prev_row, int cols);
 void	ft_free_map(t_map *map);
 
 // SPLIT
