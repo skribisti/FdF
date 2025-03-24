@@ -6,14 +6,14 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 12:20:48 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:42:41 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "../mlx_linux/mlx.h"
+# include "../mlx_Linux/mlx.h"
 # include "../libft/includes/libft.h"
 # include "get_next_line.h"
 # include "stdlib.h"

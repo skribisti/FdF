@@ -18,17 +18,21 @@ WALL = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 
 LIBFT = libft/libft.a
+MLX = mlx_Linux/libmlx_Linux.a
 
 all: $(LIBFT) $(NAME)
 
 %.o: %.c
-	$(CC) $(WALL) -I/usr/include -I./includes -Imlx_linux -Ilibft/includes -O3 -g -c $< -o $@
+	$(CC) $(WALL) -I/usr/include -I./includes -I./mlx_Linux -Ilibft/includes -O3 -g -c $< -o $@
 
 $(LIBFT):
-	make -C libft
+	@make -C libft
 
-$(NAME): $(OBJ) $(LIBFT)
-	@cc $(WALL) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -Llibft -lft -o $(NAME)
+$(MLX):
+	@make -C mlx_Linux
+
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	@cc $(WALL) $(OBJ) -L./mlx_Linux -lmlx -L/usr/lib -I./mlx_Linux -lXext -lX11 -lm -lz -Llibft -lft -o $(NAME)
 
 clean:
 	rm -f $(OBJ)
@@ -44,4 +48,4 @@ dev :
 	make fclean
 	git add .; git commit -m "dev"; git push
 
-PHONY: all clean fclean re dev
+.PHONY: all clean fclean re dev
