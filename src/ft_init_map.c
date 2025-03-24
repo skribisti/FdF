@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:55:02 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 10:32:14 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:23:46 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_point	*ft_create_point(t_data *data, char **all_points, int x, int y)
 	t_point	**tail;
 
 	new_point = ft_init_coords_point(all_points, x, y);
-	map = (*(data->fdf))->map;
+	map = (data->fdf)->map;
 	tail = data->tail;
 	if (!map->first)
 		map->first = new_point;
@@ -71,7 +71,7 @@ void	ft_process_line(t_data *data, char **all_points, int y)
 	*(data->prev_row) = prev_row;
 }
 
-void	ft_init_points(t_fdf **fdf, char **av, char *line, int fd)
+int	ft_init_points(t_fdf *fdf, char **av, char *line, int fd)
 {
 	t_point	*tail;
 	t_point	**prev_row;
@@ -79,7 +79,7 @@ void	ft_init_points(t_fdf **fdf, char **av, char *line, int fd)
 	int		y;
 	t_data	data;
 
-	(*fdf)->map->first = NULL;
+	fdf->map->first = NULL;
 	tail = NULL;
 	prev_row = NULL;
 	y = 0;
@@ -97,18 +97,18 @@ void	ft_init_points(t_fdf **fdf, char **av, char *line, int fd)
 		y++;
 		line = get_next_line(fd);
 	}
-	free(line);
+	return (free(prev_row), free(line), close(fd), 0);
 }
 
 void	ft_init_map(t_fdf *fdf, char **av)
 {
-	t_map	*map;
 	char	*line;
 	int		fd;
 
-	map = (t_map *)malloc(sizeof(t_map));
-	if (!map)
+	line = NULL;
+	fd = 0;
+	fdf->map = (t_map *)malloc(sizeof(t_map));
+	if (!fdf->map)
 		return ;
-	fdf->map = map;
-	ft_init_points(&fdf, av, line, fd);
+	(void)ft_init_points(fdf, av, line, fd);
 }

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 10:23:37 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 11:15:16 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:20:48 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_fdf
 // FOR NORM IN INIT_MAP
 typedef struct s_data
 {
-	t_fdf	**fdf;
+	t_fdf	*fdf;
 	t_point	**tail;
 	t_point	***prev_row;
 }	t_data;

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:05:31 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 09:51:52 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:55:55 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_fdf	*ft_init_img(t_fdf *fdf)
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		return (free(fdf->img), NULL);
+	fdf->win = NULL;
 	fdf->win = mlx_new_window(fdf->mlx, 1920, 1080, "FdF");
 	if (!fdf->win)
 		return (free(fdf->img), free(fdf->mlx), NULL);
