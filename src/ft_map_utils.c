@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:53:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 10:43:23 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:58:15 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,18 @@ int	ft_atoi_base(const char *nptr, char *base)
 	return (res);
 }
 
+void	ft_uppercase(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_toupper(str[i]);
+		i++;
+	}
+}
+
 int	ft_get_color(char *coords)
 {
 	int		i;
@@ -86,7 +98,8 @@ int	ft_get_color(char *coords)
 	if (j == i + 3)
 		return (create_trgb(1, 255, 255, 255));
 	sub = ft_substr(coords, i + 3, j);
+	ft_uppercase(sub);
 	color = ft_atoi_base(sub, "0123456789ABCDEF");
-	free (sub);
+	free(sub);
 	return (color);
 }
