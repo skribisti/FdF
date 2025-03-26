@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 10:44:33 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 11:15:29 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:07:09 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ void	calc_iso(t_fdf *fdf, t_point **current)
 	scaled_z = (*current)->init_z * fdf->zoom;
 	(*current)->draw_x = (scaled_x - scaled_y) * cos(0.523599);
 	(*current)->draw_y = -scaled_z + (scaled_x + scaled_y) * sin(0.523599);
+}
+
+void	ft_uppercase(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_toupper(str[i]);
+		i++;
+	}
 }

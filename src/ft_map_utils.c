@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:53:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/03/24 17:58:15 by norabino         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:06:58 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,6 @@ int	ft_atoi_base(const char *nptr, char *base)
 		i++;
 	}
 	return (res);
-}
-
-void	ft_uppercase(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		str[i] = ft_toupper(str[i]);
-		i++;
-	}
 }
 
 int	ft_get_color(char *coords)
